@@ -51,7 +51,7 @@ class App extends Component {
 
       console.log(`${postId} deleted"`);
     } catch (err) {
-      console.log("delete operation error", err);
+      console.log("delete operation error");
     }
   };
 
