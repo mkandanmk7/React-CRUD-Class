@@ -7,6 +7,9 @@ class App extends Component {
 
     this.state = {
       posts: [],
+      userId: "",
+      title: "",
+      body: "",
     };
   }
 
@@ -27,11 +30,31 @@ class App extends Component {
 
   //create operation
 
-  createPost = () => {};
+  createPost = async () => {
+    try {
+      const { userId, title, body } = this.state;
+      const { data } = await axios.post(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          userId: userId,
+          title: title,
+          body: body,
+        }
+      );
+      // const data = await res.json();  // no need to parse using axios lib
+      console.log(data);
+      // this.setState({ posts: data });
+      // console.log(res);
+    } catch (err) {
+      console.error("Try again later", err);
+    }
+  };
 
   //Update operation
 
-  createPost = () => {};
+  updatePost = (postId) => {
+    console.log(`"Updated" ${postId}`);
+  };
 
   //delete operations
 
@@ -60,10 +83,53 @@ class App extends Component {
     this.getPosts();
   }
 
+  handleChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.createPost();
+  };
+
   render() {
     return (
       <>
         <h1 className="header">CRUD operations</h1>
+        <br />
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label>User Id: </label>
+            <input
+              name="userId"
+              type="text"
+              value={this.state.userId}
+              onChange={this.handleChange}
+            />
+          </div>{" "}
+          <br />
+          <div>
+            <label>Title: </label>
+            <input
+              name="title"
+              type="text"
+              value={this.state.title}
+              onChange={this.handleChange}
+            />
+          </div>
+          <br />
+          <div>
+            <label>Body: </label>
+            <input
+              name="body"
+              type="text"
+              value={this.state.body}
+              onChange={this.handleChange}
+            />
+          </div>
+          <br />
+          <button type="submit">Submit</button>
+        </form>
         <table>
           <tr>
             <th>ID</th>
@@ -81,6 +147,7 @@ class App extends Component {
                 <td>{post.title}</td>
                 <td>{post.body}</td>
                 <button onClick={() => this.deletePost(post.id)}>Delete</button>
+                <button onClick={() => this.updatePost(post.id)}>Edit</button>
               </tr>
             );
           })}
