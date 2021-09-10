@@ -41,6 +41,12 @@ class App extends Component {
           body: body,
         }
       );
+      const posts = [...this.state.posts]; // pusing new data to end .
+
+      posts.push(data);
+
+      this.setState({ posts: posts });
+
       // const data = await res.json();  // no need to parse using axios lib
       console.log(data);
       // this.setState({ posts: data });
