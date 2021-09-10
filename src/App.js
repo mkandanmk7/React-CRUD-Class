@@ -66,8 +66,8 @@ class App extends Component {
         <h1 className="header">CRUD operations</h1>
         <table>
           <tr>
-            <th>UserID</th>
             <th>ID</th>
+            <th>UserID</th>
             <th>Title</th>
             <th>Post</th>
             <th>Actions</th>
@@ -76,8 +76,8 @@ class App extends Component {
           {this.state.posts.map((post) => {
             return (
               <tr>
-                <td>{post.userId}</td>
                 <td>{post.id}</td>
+                <td>{post.userId}</td>
                 <td>{post.title}</td>
                 <td>{post.body}</td>
                 <button onClick={() => this.deletePost(post.id)}>Delete</button>
