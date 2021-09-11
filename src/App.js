@@ -7,6 +7,7 @@ class App extends Component {
 
     this.state = {
       posts: [],
+      id: "",
       userId: "",
       title: "",
       body: "",
@@ -45,7 +46,7 @@ class App extends Component {
 
       posts.push(data);
 
-      this.setState({ posts: posts });
+      this.setState({ posts, userId: "", title: "", body: "" });
 
       // const data = await res.json();  // no need to parse using axios lib
       console.log(data);
@@ -96,6 +97,17 @@ class App extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     this.createPost();
+  };
+
+  selectPostToUpdate = (post) => {
+    this.setState({
+      ...post,
+      // userId:post.userId,
+      // id:post.id,
+      // title:post.title,  we could use also .
+      // body:post.body,
+    }); // copied inital data;
+    console.log(post);
   };
 
   render() {
@@ -153,7 +165,9 @@ class App extends Component {
                 <td>{post.title}</td>
                 <td>{post.body}</td>
                 <button onClick={() => this.deletePost(post.id)}>Delete</button>
-                <button onClick={() => this.updatePost(post.id)}>Edit</button>
+                <button onClick={() => this.selectPostToUpdate(post)}>
+                  Update
+                </button>
               </tr>
             );
           })}
