@@ -176,28 +176,33 @@ class App extends Component {
           <button type="submit">Submit</button>
         </form>
         <table>
-          <tr>
-            <th>ID</th>
-            <th>UserID</th>
-            <th>Title</th>
-            <th>Post</th>
-            <th>Actions</th>
-          </tr>
-
-          {this.state.posts.map((post) => {
-            return (
-              <tr>
-                <td>{post.id}</td>
-                <td>{post.userId}</td>
-                <td>{post.title}</td>
-                <td>{post.body}</td>
-                <button onClick={() => this.deletePost(post.id)}>Delete</button>
-                <button onClick={() => this.setState({ ...post })}>
-                  Update
-                </button>
-              </tr>
-            );
-          })}
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>UserID</th>
+              <th>Title</th>
+              <th>Post</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.posts.map((post) => {
+              return (
+                <tr key={post.id}>
+                  <td>{post.id}</td>
+                  <td>{post.userId}</td>
+                  <td>{post.title}</td>
+                  <td>{post.body}</td>
+                  <button onClick={() => this.deletePost(post.id)}>
+                    Delete
+                  </button>
+                  <button onClick={() => this.setState({ ...post })}>
+                    Update
+                  </button>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </>
     );
