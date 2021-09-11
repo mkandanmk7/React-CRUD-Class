@@ -59,8 +59,29 @@ class App extends Component {
 
   //Update operation
 
-  updatePost = (postId) => {
-    console.log(`"Updated" ${postId}`);
+  updatePost = async () => {
+    try {
+      const { id, userId, title, body } = this.state;
+
+      const { data } = await axios.put(
+        `https://jsonplaceholder.typicode.com/posts/${id}`,
+        {
+          userId,
+          title,
+          body,
+        }
+      );
+      const posts = [...this.state.posts];
+
+      const index = posts.findIndex((post) => post.id === id); //compare with particular post id . getting index value then change it
+
+      posts[index] = data;
+      this.setState({ posts, userId: "", title: "", body: "", id: "" });
+      console.log(index);
+    } catch (err) {
+      // console.log(`Updated ${data}`);
+      console.log("updated done", err);
+    }
   };
 
   //delete operations
@@ -96,19 +117,25 @@ class App extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.createPost();
+    if (this.state.id) {
+      this.updatePost();
+    } else {
+      this.createPost();
+    }
   };
 
-  selectPostToUpdate = (post) => {
-    this.setState({
-      ...post,
-      // userId:post.userId,
-      // id:post.id,
-      // title:post.title,  we could use also .
-      // body:post.body,
-    }); // copied inital data;
-    console.log(post);
-  };
+  // we could do this on update onclick function also .  for simplicity:
+
+  // selectPostToUpdate = (post) => {
+  //   this.setState({
+  //     ...post,
+  //     // userId:post.userId,
+  //     // id:post.id,
+  //     // title:post.title,  we could use also .
+  //     // body:post.body,
+  //   }); // copied inital data;
+  //   console.log(post);
+  // };
 
   render() {
     return (
@@ -165,7 +192,7 @@ class App extends Component {
                 <td>{post.title}</td>
                 <td>{post.body}</td>
                 <button onClick={() => this.deletePost(post.id)}>Delete</button>
-                <button onClick={() => this.selectPostToUpdate(post)}>
+                <button onClick={() => this.setState({ ...post })}>
                   Update
                 </button>
               </tr>
